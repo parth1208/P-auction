@@ -1,123 +1,130 @@
-{% extends "layout.html" %}
-{% load static %}
-
-{% block body %}
+{% extends "layout.html" %} {% load static %} {% block body %}
 
 
 <script>
     function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result)
-                        .width(200)
-                        .height(200);
-                };
+            reader.onload = function(e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
 
-                reader.readAsDataURL(input.files[0]);
-            }
+            reader.readAsDataURL(input.files[0]);
         }
+    }
 </script>
 
 <style>
     .button1 {
-  background-color: #e91e63; 
+        background-color: #e91e63;
     }
-    .button1:hover{ background-color:#3f51b5 ;}
+    
+    .button1:hover {
+        background-color: #3f51b5;
+    }
 </style>
 
 <section class="form-12" id="home">
-	<div class="form-12-content">
-		<div class="container">
-			<div class="grid grid-column-3 ">
-				<div class="column2"></div>
-				<div class="column1 mb-3" style="height: 615px; padding:1ch;">
+    <div class="form-12-content">
+        <div class="container">
+            <div class="grid grid-column-3 ">
+                <div class="column2"></div>
+                <div class="column1 mb-3" style="height: 615px; padding:1ch;">
                     <h3 class="tagline mb-3 form-head" style="text-align: center;">Welcome, Please Sign Up</h3>
-                    
-                    
+
+
                     <form action="{% url 'signup' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                    
-                    <div style="float: left; width: 25%;padding: 10px;height: 500px;">
-                        <div style="margin-top: 50px; padding-right: 100px;">
-                        <img id="blah" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="250" height="250" class="rounded-circle" alt="your image" /></div>
-                        <div class="form-group row" style="margin-top: 50px; margin-right: 10px;">
-                            <div class="col-md-1 col-form"></div>
-                            <div class="col">
-                                <div class="custom-file" style="margin-left: -10px;">
-                                      <input type="file" onchange="readURL(this);" class="custom-file-input" id="customFile" name="images">
-                                      <label class="custom-file-label" for="customFile">Choose file</label>
+
+                        <div style="float: left; width: 25%;padding: 10px;height: 500px;">
+                            <div style="margin-top: 50px; padding-right: 100px;">
+                                <img id="blah" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="250" height="250" class="rounded-circle" alt="your image" /></div>
+                            <div class="form-group row" style="margin-top: 50px; margin-right: 10px;">
+                                <div class="col-md-1 col-form"></div>
+                                <div class="col">
+                                    <div class="custom-file" style="margin-left: -10px;">
+                                        <input type="file" onchange="readURL(this);" class="custom-file-input" id="customFile" name="images">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
 
-                    <div style="float: right; width: 75%;padding: 10px;height: 550px;">
-                        <div class="form-group row name">
-                            <div class="form-group col">
-                                <label>First Name</label>
-                                <input class="form-control" autofocus type="text" name="first" placeholder="First Name" autocomplete="off" required>
-                            </div>
-                            <div class="form-group col">
-                                <label>Last Name</label>
-                                <input class="form-control" autofocus type="text" name="last" placeholder="Last Name" autocomplete="off">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row name">
-                            <div class="form-group col">
-                                <label>City</label>
-                                <input class="form-control" autofocus type="text" name="City" placeholder="City Name" autocomplete="off" required>
-                            </div>
-                            <div class="form-group col">
-                                <label>State</label>
-                                <input class="form-control" autofocus type="text" name="State" placeholder="State Name" autocomplete="off" required>
-                            </div>
-                            <div class="form-group col">
-                                <label>Country</label>
-                                <input class="form-control" autofocus type="text" name="Country" placeholder="Country" autocomplete="off">
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input class="form-control"  type="tel"  name="phone" placeholder="Phone Number"  autocomplete="off" required>
-                        </div>
+                        <div style="float: right; width: 75%;padding: 10px;height: 550px;">
+                            <div class="form-group row name">
+                                <div class="form-group col">
+                                    <label>Select User type</label>
+                                    <select class="form-control" name="usertype" id="usertype">
+                                    <option value="bidder" class="input">Bidder</option>
+                                    <option value="seller" class="input">Seller</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label>First Name</label>
+                                    <input class="form-control" autofocus type="text" name="first" placeholder="First Name" autocomplete="off" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Last Name</label>
+                                    <input class="form-control" autofocus type="text" name="last" placeholder="Last Name" autocomplete="off">
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Email Id</label>
-                            <input class="form-control" type="email" name="email" placeholder="Email Address" autocomplete="off" required>
-                        </div>
-                        <div class="form-group row name" style="padding-bottom: 0%;">
-                            <div class="form-group col">
-                                <label>Password</label>
-                                <input class="form-control" type="password" name="password" placeholder="Password" minlength="8" maxlength="20" required>
+                            <div class="form-group row name">
+                                <div class="form-group col">
+                                    <label>City</label>
+                                    <input class="form-control" autofocus type="text" name="City" placeholder="City Name" autocomplete="off" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>State</label>
+                                    <input class="form-control" autofocus type="text" name="State" placeholder="State Name" autocomplete="off" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Country</label>
+                                    <input class="form-control" autofocus type="text" name="Country" placeholder="Country" autocomplete="off">
+                                </div>
                             </div>
-                            <div class="form-group col">
-                                <label>Confirm Password</label>
-                                <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password" required>
+
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input class="form-control" type="tel" name="phone" placeholder="Phone Number" autocomplete="off" required>
                             </div>
-                        </div>
-                        <div class="d-grid align-login-register ">
-                            <button type="submit" class=" btn-secondary btn-theme button1" style="margin-top: -5px; border-radius: 10px; margin-left: 185px; width: 150px; height: 50px;">Register</button>
-                        </div>
-                        
+
+                            <div class="form-group">
+                                <label>Email Id</label>
+                                <input class="form-control" type="email" name="email" placeholder="Email Address" autocomplete="off" required>
+                            </div>
+                            <div class="form-group row name" style="padding-bottom: 0%;">
+                                <div class="form-group col">
+                                    <label>Password</label>
+                                    <input class="form-control" type="password" name="password" placeholder="Password" minlength="8" maxlength="20" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Confirm Password</label>
+                                    <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password" required>
+                                </div>
+                            </div>
+                            <div class="d-grid align-login-register ">
+                                <button type="submit" class=" btn-secondary btn-theme button1" style="margin-top: -5px; border-radius: 10px; margin-left: 185px; width: 150px; height: 50px;">Register</button>
+                            </div>
+
                     </form>
                     {% if message %}
-                        <div>
+                    <div>
                         <p class="card-text" style="color: red; font-weight: bold; margin-left: 175px;">{{ message }}</p>
-                        </div>    
+                    </div>
                     {% endif %}
 
 
                     </div>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 

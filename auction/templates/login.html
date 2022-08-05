@@ -1,45 +1,48 @@
-{% extends "layout.html" %}
-{% load static %}
-
-{% block body %}
+{% extends "layout.html" %} {% load static %} {% block body %}
 
 
 <section class="w3l-login">
-	<div class="login-bg section-gap">
-		<div class="container">
-			<div class="login-form">
-				<h4 class="form-head">Welcome, Please Sign In</h4>
-				<form action="{% url 'login' %}" method="POST">
-					{% csrf_token %}
-					<div class="">
-						<p class="text-head">Email Id</p>
-						<input type="text" name="username" placeholder="Please Enter Email Id.." class="input" />
-					</div>
-					<div class="">
-						<p class="text-head">Password</p>
-						<input type="password" name="password" placeholder="Please Enter Password.." class="input" />
-					</div>
-					<label class="remember">
+    <div class="login-bg section-gap">
+        <div class="container">
+            <div class="login-form">
+                <h4 class="form-head">Welcome, Please Sign In</h4>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="">
+                        <p class="text-head">Select User type</p>
+                        <select name="usertype" id="usertype" class="input">
+							<option value="bidder" class="input">Bidder</option>
+							<option value="seller" class="input">Seller</option>
+						  </select>
+                    </div>
+                    <div class="">
+                        <p class="text-head">Email Id</p>
+                        <input type="text" name="username" placeholder="Please Enter Email Id.." class="input" />
+                    </div>
+                    <div class="">
+                        <p class="text-head">Password</p>
+                        <input type="password" name="password" placeholder="Please Enter Password.." class="input" />
+                    </div>
+                    <label class="remember">
 						<input type="checkbox">
 						<span class="checkmark"></span>Remember me
 					</label>
-					<div class="d-grid align-login-register">
-						<button type="submit" class="btn btn-secondary btn-theme">Login</button>
-						<a href="{% url 'signup' %}" class="signuplink" style="text-decoration: none;">Register New</a>
-					</div>
-					
-					{% if message %}
-                        <div>
-                        <p class="card-text" style="color: red; font-weight: bold; padding-top: 3ch; margin-left: 50px;">{{ message }}</p>
-						</div> 
-						{% else %}
-						<a href="{% url 'password_reset' %}" class="signuplink" style="text-decoration: none;">Forgot password</a>
-                    {% endif %}
-				</form>
+                    <div class="d-grid align-login-register">
+                        <button type="submit" class="btn btn-secondary btn-theme">Login</button>
+                        <a href="{% url 'signup' %}" class="signuplink" style="text-decoration: none;">Register New</a>
+                    </div>
 
-			</div>
-		</div>
-	</div>
+                    {% if message %}
+                    <div>
+                        <p class="card-text" style="color: red; font-weight: bold; padding-top: 3ch; margin-left: 50px;">{{ message }}</p>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'password_reset' %}" class="signuplink" style="text-decoration: none;">Forgot password</a> {% endif %}
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 </section>
 

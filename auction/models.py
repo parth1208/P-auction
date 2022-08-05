@@ -9,11 +9,16 @@ class User(AbstractUser):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     phone = models.IntegerField(default=0)
+    is_Budder=models.BooleanField('Is Bidder',default=False)
+    is_seller=models.BooleanField('Is seller',default=False)
     image = models.ImageField(upload_to='Profile/')
 
     def __str__(self):
         return f"{self.username}"
 
+<<<<<<< HEAD
+
+=======
 class Session_date(models.Model):
     date = models.CharField(max_length=30,null=True)
     def __str__(self):
@@ -39,3 +44,4 @@ class Product(models.Model):
     session = models.ForeignKey(Session_Time,on_delete=models.CASCADE,null=True)
     def __str__(self):
         return self.name 
+>>>>>>> b055e6827ebf667d90ae53b3846446b5a978b716

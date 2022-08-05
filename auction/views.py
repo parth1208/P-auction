@@ -1,3 +1,4 @@
+from imp import is_builtin
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login as dj_login, logout
 from django.shortcuts import render, redirect
@@ -53,6 +54,8 @@ def signup(request):
         city = request.POST["City"]
         state = request.POST["State"]
         country = request.POST["Country"]
+        Sellect=request.POST["usertype"]
+        print(Sellect)
         try:
             image = request.FILES["images"]
         except MultiValueDictKeyError:
@@ -80,10 +83,16 @@ def signup(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username=email , email=email, password=password,first_name = first, last_name=last, phone=phone, city=city, state=state, country=country,image=image)
-            user = authenticate(request, username=email, password=password)
-            dj_login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            if Sellect=='bidder':
+                user = User.objects.create_user(username=email , email=email, password=password,first_name = first, last_name=last, phone=phone, city=city, state=state, country=country,image=image,is_Budder=True)
+                user = authenticate(request, username=email, password=password)
+                dj_login(request, user)
+                return HttpResponseRedirect(reverse("index"))
+            else:
+                user = User.objects.create_user(username=email , email=email, password=password,first_name = first, last_name=last, phone=phone, city=city, state=state, country=country,image=image,is_seller=True)
+                user = authenticate(request, username=email, password=password)
+                dj_login(request, user)
+                return HttpResponseRedirect(reverse("index"))
 
         except IntegrityError:
             return render(request, "signup.html", {
