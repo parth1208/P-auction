@@ -35,36 +35,80 @@
                 <div class="column2"></div>
                 <div class="column1 mb-3" style="height: 400px; padding:1ch;">
                     <h3 class="tagline mb-3 form-head" style="text-align: center;">Product Details</h3>
-
-                        {% for data in details %}
-                        <div style="float: left; width: 25%;padding-left: 200px;height: 500px;">
-                            <div style="margin-top: 50px; padding-right: 100px;">
-                                <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle" alt="your image" /></div>
-                        </div>
-                        
-                        <div style="float: right; width: 60%;padding-left: 150px;height: 550px;">
-							<div style="padding-top: 55px;">
-							
-							<div style=" padding: 5px; word-spacing: 5px;">
-							Name:     {{data.name}}
-							</div>
-							<div style=" padding: 5px; word-spacing: 5px;">
-							Expected Price:  {{data.min_price}}
-							</div>
-							<div style=" padding: 5px; word-spacing: 5px;">
-							From:  {{data.from_city}}
-							</div>
-							<div style=" padding: 5px; word-spacing: 5px;">
-							To:  {{data.to_city}}
-							</div>
-							<div style=" padding: 5px; word-spacing: 5px;">
-							Weight:  {{data.weight}}
-							</div>
-                            <div style=" padding: 5px; word-spacing: 5px;">
-                                Parcel Type:  {{data.parcel_type}}
+                    {% for data in details %}
+                    <table style="margin-left: auto; margin-right:auto">
+                        <th>
+                            <td style="width: 400px;">
+                                <div style="float: left; width: 25%;padding-left: 30px;height: 500px;">
+                                    <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle"/>
                                 </div>
-						</div>
-						</div>
+                            </td>
+                            <td style="width: 400px;">
+                                <div style="float: center;height: 550px;">
+                                    <div style="padding-top: 40px;">
+                                    
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                    Name:     {{data.name}}
+                                    </div>
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                    Expected Price:  {{data.min_price}}
+                                    </div>
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                    From:  {{data.from_city}}
+                                    </div>
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                    To:  {{data.to_city}}
+                                    </div>
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                    Weight:  {{data.weight}}
+                                    </div>
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                        Parcel Type:  {{data.parcel_type}}
+                                    </div>
+                                    <div class="form-group row name">
+                                        <div class="form-group col">
+                                            <input type="number" style="width: 160px;" class="form-control" placeholder="Your bid" >
+                                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div class="form-group col">
+                                            <button class="btn btn-outline-secondary" type="button" style="padding: 2px;font-size:15px; margin-top: 1px; border-radius: 10px; margin-left: -140px; width: 100px; height: 35px;">Bid</button>
+                                        </div>
+                                       
+                                    </div>
+                                    
+                                </div>
+                            </td>
+                            <td style="width: 400px; padding-bottom: 240px;">
+                                <h3 style="text-align: center;">Top 3 Performer</h3>
+                                <table class="table table-striped" style="text-align: center;">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Bidder</th>
+                                        <th scope="col">Bid Price</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>User 1</td>
+                                        <td>1000</td>
+                                      </tr>
+                                      <tr>
+                                        <td>User 2</td>
+                                        <td>1100</td>
+                                      </tr>
+                                      <tr>
+                                        <td>User 3</td>
+                                        <td>1200</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </td>
+                        </th>
+                    </table>
+
+                        
+                        
+                        
+                       
                         {% endfor %}
 
 
