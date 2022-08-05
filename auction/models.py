@@ -18,7 +18,7 @@ class Session_date(models.Model):
     date = models.CharField(max_length=30,null=True)
     def __str__(self):
         return self.date
-        
+
 class Session_Time(models.Model):
     date = models.ForeignKey(Session_date,on_delete=models.CASCADE,null=True)
     time = models.CharField(max_length=30,null=True)
@@ -38,4 +38,4 @@ class Product(models.Model):
     images = models.FileField(null=True)
     session = models.ForeignKey(Session_Time,on_delete=models.CASCADE,null=True)
     def __str__(self):
-        return self.name
+        return self.name 
