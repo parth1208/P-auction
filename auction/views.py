@@ -109,7 +109,39 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'change_password.html', {'form': form})    
     
-    
+def Add_Product(request):
+    if not request.user.is_authenticated:
+        return redirect('login_user')
+    data = 0
+    user = User.objects.get(username=request.user.username)
+    error = ""
+    try:
+        data = Bidder.objects.get(user=user)
+        if data:
+            error = "pat"
+    except:
+        data = Auction_User.objects.get(user=user)
+    if data.membership.fee == "Unpaid":
+        return redirect('Member_Payment_mode')
+    date1 = datetime.date.today()
+    sed = Session_date.objects.all()
+    sett = Session_Time.objects.all()
+    sell = Auction_User.objects.get(user=user)
+    terror = False
+    if request.method == "POST":
+        
+        p = request.POST['p_name']
+        pr = request.POST['price']
+        i = request.FILES['image']
+        sett1 = request.POST['time']
+        sed1 = request.POST['date']
+        ses = Session_Time.objects.get(id=sett1)
+        sta = Status.objects.get(status="pending")
+        pro1=Product.objects.create(status=sta,session=ses,category=sub,name=p, min_price=pr, images=i)
+        auc=Aucted_Product.objects.create(product=pro1,user=sell)
+        terror = True
+    d = {'sed': sed,'sett':sett,'date1': date1,'terror':terror,'error':error}
+    return render(request, 'add_product.html', d)    
 
 def profile(request,pk):
     username = User.objects.get(pk = pk)
