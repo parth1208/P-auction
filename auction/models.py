@@ -40,7 +40,7 @@ class Product(models.Model):
     session = models.ForeignKey(Session_date,on_delete=models.CASCADE,null=True)
     def __str__(self):
         return self.name 
-        
+         
 
 class Aucted_Product(models.Model):
     winner = models.CharField(max_length=100,null=True)
