@@ -19,6 +19,15 @@ import imghdr
 def index(request):
     return render(request, "index.html")
 
+def table1(request):
+    return render(request, "table1.html")
+
+def table2(request):
+    return render(request, "table2.html")
+
+def product(request):
+    return render(request, "product.html")
+
 def login(request):
     if request.method == "POST":
 
