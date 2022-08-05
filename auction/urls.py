@@ -11,7 +11,7 @@ urlpatterns = [
     path("product/", views.product, name="product"),
     path("table1/", views.table1, name="table1"),
     path("table2/", views.table2, name="table2"),
-
+    path("add_product/", views.Add_Product, name="add_product"),
 
     path('change_password',views.change_password,name='change_password'),
     path('password-reset/', v.PasswordResetView.as_view(template_name='password_reset.html', email_template_name='password_reset_email.html',subject_template_name='password_reset_email_subject.txt'),name='password_reset'),

@@ -4,8 +4,9 @@ from django.contrib.auth import authenticate, login as dj_login, logout
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.db import IntegrityError
-from .models import User
+from .models import *
 
+import datetime
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
@@ -18,15 +19,6 @@ import imghdr
 # Create your views here.
 def index(request):
     return render(request, "index.html")
-
-def table1(request):
-    return render(request, "table1.html")
-
-def table2(request):
-    return render(request, "table2.html")
-
-def product(request):
-    return render(request, "product.html")
 
 def login(request):
     if request.method == "POST":
@@ -138,27 +130,28 @@ def Add_Product(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
-    if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        data = User.objects.get(username=user)
     date1 = datetime.date.today()
     sed = Session_date.objects.all()
-    sett = Session_Time.objects.all()
-    sell = Auction_User.objects.get(user=user)
+    sell = User.objects.get(username=user)
     terror = False
     if request.method == "POST":
-        
-        p = request.POST['p_name']
-        pr = request.POST['price']
-        i = request.FILES['image']
-        sett1 = request.POST['time']
-        sed1 = request.POST['date']
-        ses = Session_Time.objects.get(id=sett1)
-        sta = Status.objects.get(status="pending")
-        pro1=Product.objects.create(status=sta,session=ses,category=sub,name=p, min_price=pr, images=i)
+        p = request.POST['product_name']
+        pr = request.POST['ex_price']
+        i = request.FILES['images']
+        st_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        fr_ct = request.POST['from_city']
+        to_ct = request.POST['to_city']
+        weight = request.POST['weight']
+        p_type = request.POST['parcel_type']
+        ses = Session_date.objects.create(date=st_date)
+        sta = Status.objects.create(status="pending")
+        pro1=Product.objects.create(status=sta,session=ses,name=p, min_price=pr, images=i,from_city=fr_ct,to_city=to_ct,weight=weight,parcel_type=p_type)
         auc=Aucted_Product.objects.create(product=pro1,user=sell)
         terror = True
-    d = {'sed': sed,'sett':sett,'date1': date1,'terror':terror,'error':error}
+        
+    d = {'sed': sed,'date1': date1,'terror':terror,'error':error}
     return render(request, 'add_product.html', d)    
 
 def profile(request,pk):
@@ -167,4 +160,3 @@ def profile(request,pk):
             "username": username,
         }
     return render(request,"profile.html", context)
-
