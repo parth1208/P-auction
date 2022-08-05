@@ -36,34 +36,36 @@
                 <div class="column1 mb-3" style="height: 400px; padding:1ch;">
                     <h3 class="tagline mb-3 form-head" style="text-align: center;">Product Details</h3>
 
-
+                        {% for data in details %}
                         <div style="float: left; width: 25%;padding-left: 200px;height: 500px;">
                             <div style="margin-top: 50px; padding-right: 100px;">
-                                <img id="blah" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="250" height="250" class="rounded-circle" alt="your image" /></div>
+                                <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle" alt="your image" /></div>
                         </div>
+                        
                         <div style="float: right; width: 60%;padding-left: 150px;height: 550px;">
 							<div style="padding-top: 55px;">
-							<div style=" padding: 5px; word-spacing: 40px;">
-							Email     Email
+							
+							<div style=" padding: 5px; word-spacing: 5px;">
+							Name:     {{data.name}}
 							</div>
-							<div style=" padding: 5px; word-spacing: 40px;">
-							Name      Name
+							<div style=" padding: 5px; word-spacing: 5px;">
+							Expected Price:  {{data.min_price}}
 							</div>
-							<div style=" padding: 5px; word-spacing: 38px;">
-							Phone  Phone
+							<div style=" padding: 5px; word-spacing: 5px;">
+							From:  {{data.from_city}}
 							</div>
-							<div style=" padding: 5px; word-spacing: 54px;">
-							City  City
+							<div style=" padding: 5px; word-spacing: 5px;">
+							To:  {{data.to_city}}
 							</div>
-							<div style=" padding: 5px; word-spacing: 43px;">
-							State  state
+							<div style=" padding: 5px; word-spacing: 5px;">
+							Weight:  {{data.weight}}
 							</div>
-							<div style=" padding: 5px; word-spacing: 26px;">
-							Country  country
-							</div>
+                            <div style=" padding: 5px; word-spacing: 5px;">
+                                Parcel Type:  {{data.parcel_type}}
+                                </div>
 						</div>
 						</div>
-
+                        {% endfor %}
 
 
                     </div>

@@ -8,10 +8,10 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("logout_user/", views.logout_user, name="logout_user"),
     path("profile/<int:pk>", views.profile, name="profile"),
-    path("product/", views.product, name="product"),
+    path("product/", views.All_Products, name="product"),
     path("Products/", views.Products_table, name="Products"),
     path("Bidder/", views.Bidder, name="Bidder"),
-    path("blog/", views.blog, name="blog"),
+    path("product_details/<int:pk>", views.Product_detail, name="product_details"),
 
     path("add_product/", views.Add_Product, name="add_product"),
 

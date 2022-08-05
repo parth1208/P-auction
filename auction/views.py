@@ -20,8 +20,8 @@ import imghdr
 def index(request):
     return render(request, "index.html")
 
-def blog(request):
-    return render(request, "blog.html")
+def product_details(request):
+    return render(request, "product_details.html")
 
 def Products(request):
     return render(request, "products_table.html")
@@ -183,6 +183,28 @@ def Products_table(request):
 
     return render(request, "products_table.html",{'details':products_details})
 
+def Product_detail(request,pk):
+    
+    
+    products_details = Product.objects.filter(id=pk)
+
+    return render(request, "product_details.html",{'details':products_details})
+def All_Products(request):
+    if not request.user.is_authenticated:
+        return redirect('login_user')
+    data = 0
+    user = User.objects.get(username=request.user.username)
+    error = ""
+    try:
+        data = Bidder.objects.get(user=user)
+        if data:
+            error = "pat"
+    except:
+        data = User.objects.get(username=user)
+    
+    products_details = Product.objects.all()
+    print(products_details)
+    return render(request, "product.html",{'details':products_details})
 
 def profile(request,pk):
     username = User.objects.get(pk = pk)
