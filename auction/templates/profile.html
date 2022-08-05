@@ -1,62 +1,66 @@
-{% extends "layout.html" %}
-{% load static %}
-
-{% block body %}
+{% extends "layout.html" %} {% load static %} {% block body %}
 
 <section class="form-12" id="home">
-	<div class="form-12-content">
-		<div class="container">
-			<div class="grid grid-column-3 ">
-				<div class="column2"></div>
-				<div class="column1 mb-3" style="height: 450px; padding:1ch;">
-		<div style="text-align:center;">
-			<h3>User Profile</h3>
-		</div>
-					{% if user.is_authenticated %}
-					<div style="float: left; width: 40%;padding: 10px;height: 550px;">
-					<div style="margin-left: 38%; margin-right: 62%; padding-top:80px; ">
-					{% if username.image %}
-					
-					<img src="../media/{{username.image}}" class="align-self-center mr-3 img-responsive img-rounded" alt="Profile Picture" 
-						  title="{{username.username}}" width="250px">
-					{% else %}
-						  
-							<img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="170" height="170"  alt="your image" />
-					{% endif %}
-					</div>
-					</div>
+    <div class="form-12-content">
+        <div class="container">
+            <div class="grid grid-column-3 ">
+                <div class="column2"></div>
+                <div class="column1 mb-3" style="height: 450px; padding:1ch;">
+                    <div style="text-align:center;">
+                        <h3>User Profile</h3>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div style="float: left; width: 40%;padding: 10px;height: 550px;">
+                        <div style="margin-left: 38%; margin-right: 62%; padding-top:80px; ">
+                            {% if username.image %}
 
-						<div style="float: right; width: 60%;padding: 21px;height: 550px;">
-							<div style="padding-top: 55px;">
-							<div style=" padding: 5px; word-spacing: 40px;">
-							Email     {{ username.email }}
-							</div>
-							<div style=" padding: 5px; word-spacing: 40px;">
-							Name      {{ username.first_name }}
-							</div>
-							<div style=" padding: 5px; word-spacing: 38px;">
-							Phone  {{ username.phone }}
-							</div>
-							<div style=" padding: 5px; word-spacing: 54px;">
-							City  {{ username.city }}
-							</div>
-							<div style=" padding: 5px; word-spacing: 43px;">
-							State  {{ username.state }}
-							</div>
-							<div style=" padding: 5px; word-spacing: 26px;">
-							Country  {{ username.country }}
-							</div>
-						</div>
-						</div>
-					 {% endif %}
-					
+                            <img src="../media/{{username.image}}" class="align-self-center mr-3 img-responsive img-rounded" alt="Profile Picture" title="{{username.username}}" width="250px"> {% else %}
 
-				</div>
-				</div>
-				</div>
-				</div>
-				</section>
-	
+                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="170" height="170" alt="your image" /> {% endif %}
+                        </div>
+                    </div>
+
+                    <div style="float: right; width: 60%;padding: 21px;height: 550px;">
+                        <div style="padding-top: 55px;">
+                            <div style=" padding: 5px; word-spacing: 40px;">
+                                Email {{ username.email }}
+                            </div>
+                            <div style=" padding: 5px; word-spacing: 40px;">
+                                Name {{ username.first_name }}
+                            </div>
+                            <div style=" padding: 5px; word-spacing: 38px;">
+                                Phone {{ username.phone }}
+                            </div>
+                            <div style=" padding: 5px; word-spacing: 54px;">
+                                City {{ username.city }}
+                            </div>
+                            <div style=" padding: 5px; word-spacing: 43px;">
+                                State {{ username.state }}
+                            </div>
+                            <div style=" padding: 5px; word-spacing: 26px;">
+                                Country {{ username.country }}
+                            </div>
+                            {% if username.is_Budder == False %}
+                            <div style=" padding: 5px; word-spacing: 26px;">
+                                UserType Bidder
+                            </div>
+                            {% else %}
+                            <div style=" padding: 5px; word-spacing: 26px;">
+                                UserType Seller
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 
 {% endblock %}

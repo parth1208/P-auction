@@ -1,0 +1,54 @@
+{% extends "layout.html" %} {% load static %} {% block body %}
+
+<style>
+    th {
+        text-align: center;
+    }
+    
+    td {
+        text-align: center;
+    }
+</style>
+
+<section class="grids-12" id="news">
+    <div id="grids4-block" class="py-2">
+        <div class="container py-md-5">
+            <div class="row mt-2 pt-3">
+
+                <div class="grids4-info col-lg-16 col-md-12 offset-lg-0 offset-md-3 mt-lg-0 mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in details %}
+                            <tr>
+                                <th scope="row" style="text-align:center">1</th>
+                                <td>{{data.name}}</td>
+                                <td>{{data.min_price}}</td>
+                                <td><img src="/{{ BASIC_DIR }}/{{data.images}}" style="height: 50px;"></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger">Edit</button>
+                                    <button type="button" class="btn btn-success">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

@@ -28,7 +28,7 @@ class Status(models.Model):
         return self.status
 
 class Product(models.Model):
-    temp = models.IntegerField(null=True)
+    user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,null=True)
     status  =models.ForeignKey(Status,on_delete=models.CASCADE,null=True)
     name = models.CharField(max_length=100,null=True)
     min_price = models.IntegerField(null=True)

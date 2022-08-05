@@ -9,8 +9,8 @@ urlpatterns = [
     path("logout_user/", views.logout_user, name="logout_user"),
     path("profile/<int:pk>", views.profile, name="profile"),
     path("product/", views.product, name="product"),
-    path("table1/", views.table1, name="table1"),
-    path("table2/", views.table2, name="table2"),
+    path("Products/", views.Products_table, name="Products"),
+    path("Bidder/", views.Bidder, name="Bidder"),
     path("blog/", views.blog, name="blog"),
 
     path("add_product/", views.Add_Product, name="add_product"),
