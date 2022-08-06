@@ -91,19 +91,19 @@ Author URL: http://w3layouts.com
                             <li class="nav-item">
                                 <a class="nav-link" href="about.html">About</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'product' %}">Product</a>
-                            </li>
-                            {% if user.is_Budder == True %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="{% url 'Products' %}">Products</a>
-                            </li>
+                            {% if user.is_Budder != True %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="{% url 'add_product' %}">Add Products</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'myproducts' %}">My Products</a>
                             </li>
                             {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="{% url 'Bidder' %}">Bidder</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'product' %}">Product</a>
                             </li>
                             {% endif %}
                             <li class="nav-item">

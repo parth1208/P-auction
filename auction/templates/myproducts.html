@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+
+<!-- content-with-photo4 block -->
+<section class="grids-4" id="news">
+    <div id="grids4-block" class="py-2">
+       <div class="container py-md-5">
+        {% for data in details %}
+        {%  if data.status != "pending" %}
+        <h2>Pending Result Selection</h2>
+            <div class="row mt-2 pt-3">
+                <div class="grids4-info  col-lg -4 col-md-6">
+                        <div class="info-bg editContent">
+                            <a href="{% url 'select_result' pk=data.pk %}"><img src="{% static '../media/'%}{{data.images}}" class="img-fluid" alt=""></a>
+                            <h5 class="mt-4 mb-3 editContent"><a class="editContent" href="{% url 'select_result' pk=data.pk %}">{{data.name}}</a></h5>
+                           <li class="pr-3"><span class="fa fa-calendar"></span>{{data.session.date}}</li>
+                           <li><a href="{% url 'select_result' pk=data.pk %}"><span class="fa fa-arrow-circle-right"></span>{{data.min_price}}</a></li>
+                        </div>
+                    
+                    </div>
+                    
+                    
+                </div>
+                {% else%}
+                    <h2>Completed Delivery</h2>
+                    <div class="row mt-2 pt-3">
+                    <div class="grids4-info  col-lg-4 col-md-6">
+                        
+                            <div class="info-bg editContent">
+                                <a href="{% url 'done_bid' pk=data.pk %}"><img src="{% static '../media/'%}{{data.images}}" class="img-fluid" alt=""></a>
+                                <h5 class="mt-4 mb-3 editContent"><a class="editContent" href="{% url 'done_bid' pk=data.pk %}">{{data.name}}</a></h5>
+                               <li class="pr-3"><span class="fa fa-calendar"></span>{{data.session.date}}</li>
+                               <li><a href="{% url 'done_bid' pk=data.pk %}"><span class="fa fa-arrow-circle-right"></span>{{data.min_price}}</a></li>
+                            </div>
+                        
+                        </div>
+                        
+                    </div>
+
+                {% endif %}
+                {% endfor %}
+           </div>
+    </div>
+</section>
+<section class="grids-4" id="news">
+    <div id="grids4-block" class="py-2">
+       <div class="container py-md-5">
+        
+            
+           </div>
+    </div>
+</section>
+
+
+<!-- content-with-photo4 block -->
+<!-- specifications -->
+
+    <!-- skills-1 block -->
+
+    <!-- Teams14 block -->
+
+
+ 
+{% endblock %}

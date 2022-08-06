@@ -23,6 +23,14 @@ def index(request):
 def product_details(request):
     return render(request, "product_details.html")
 
+def done_bid(request,pk):
+    products_details = Product.objects.filter(id=pk)
+    return render(request, "done_bid.html",{'details':products_details})
+
+def select_result(request,pk):
+    products_details = Product.objects.filter(id=pk)
+    return render(request, "select_result.html",{'details':products_details})
+
 def Products(request):
     return render(request, "products_table.html")
 
@@ -149,17 +157,19 @@ def Add_Product(request):
     terror = False
     if request.method == "POST":
         p = request.POST['product_name']
-        pr = request.POST['ex_price']
+        
         i = request.FILES['images']
         st_date = request.POST['start_date']
         end_date = request.POST['end_date']
         fr_ct = request.POST['from_city']
         to_ct = request.POST['to_city']
+        dist = request.POST['km']
         weight = request.POST['weight']
+        pr = 2.5*dist
         p_type = request.POST['parcel_type']
         ses = Session_date.objects.create(date=st_date)
         sta = Status.objects.create(status="pending")
-        pro1=Product.objects.create(user=request.user,status=sta,session=ses,name=p, min_price=pr, images=i,from_city=fr_ct,to_city=to_ct,weight=weight,parcel_type=p_type)
+        pro1=Product.objects.create(user=request.user,status=sta,session=ses,name=p, min_price=pr, images=i,from_city=fr_ct,to_city=to_ct,distance=dist,parcel_type=p_type)
         auc=Aucted_Product.objects.create(product=pro1,user=sell)
         terror = True
         
@@ -205,6 +215,23 @@ def All_Products(request):
     products_details = Product.objects.all()
     print(products_details)
     return render(request, "product.html",{'details':products_details})
+
+def myproducts(request):
+    if not request.user.is_authenticated:
+        return redirect('login_user')
+    data = 0
+    user = User.objects.get(username=request.user.username)
+    error = ""
+    try:
+        data = Bidder.objects.get(user=user)
+        if data:
+            error = "pat"
+    except:
+        data = User.objects.get(username=user)
+    
+    products_details = Product.objects.filter(user=request.user)
+    return render(request, "myproducts.html",{'details':products_details})
+    
 
 def profile(request,pk):
     username = User.objects.get(pk = pk)

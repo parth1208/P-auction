@@ -28,7 +28,7 @@ class Status(models.Model):
         return self.status
 
 class Product(models.Model):
-    user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     status  =models.ForeignKey(Status,on_delete=models.CASCADE,null=True)
     name = models.CharField(max_length=100,null=True)
     min_price = models.IntegerField(null=True)
@@ -36,6 +36,7 @@ class Product(models.Model):
     from_city=models.CharField(max_length=100,null=True)
     to_city=models.CharField(max_length=100,null=True)
     weight=models.IntegerField(null=True)
+    distance=models.IntegerField(null=True)
     parcel_type=models.CharField(max_length=100,null=True)
     session = models.ForeignKey(Session_date,on_delete=models.CASCADE,null=True)
     def __str__(self):

@@ -11,7 +11,10 @@ urlpatterns = [
     path("product/", views.All_Products, name="product"),
     path("Products/", views.Products_table, name="Products"),
     path("Bidder/", views.Bidder, name="Bidder"),
+    path("myproducts/", views.myproducts, name="myproducts"),
     path("product_details/<int:pk>", views.Product_detail, name="product_details"),
+    path("done_bid/<int:pk>", views.done_bid, name="done_bid"),
+    path("select_result/<int:pk>", views.select_result, name="select_result"),
 
     path("add_product/", views.Add_Product, name="add_product"),
 

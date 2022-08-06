@@ -33,7 +33,7 @@
         <div class="container">
             <div class="grid grid-column-3 ">
                 <div class="column2"></div>
-                <div class="column1 mb-3" style="height: 450px; padding:1ch;">
+                <div class="column1 mb-3" style="height: 400px; padding:1ch;">
                     <h3 class="tagline mb-3 form-head" style="text-align: center;">Product Details</h3>
                     {% for data in details %}
                     <table style="margin-left: auto; margin-right:auto">
@@ -44,8 +44,8 @@
                                 </div>
                             </td>
                             <td style="width: 400px;">
-                                <div style="float: center;height: 600px;">
-                                    <div style="padding-top: 20px;">
+                                <div style="float: center;height: 550px;">
+                                    <div style="padding-top: 40px;">
                                     
                                     <div style=" padding: 5px; word-spacing: 5px;">
                                     Name:     {{data.name}}
@@ -60,25 +60,22 @@
                                     To:  {{data.to_city}}
                                     </div>
                                     <div style=" padding: 5px; word-spacing: 5px;">
-                                    KMs:  100
+                                        Minimum bid: {{data.min_price}}
                                     </div>
                                     <div style=" padding: 5px; word-spacing: 5px;">
-                                    Weight:  {{data.weight}}
+                                        Weight:  {{data.weight}}
                                     </div>
                                     <div style=" padding: 5px; word-spacing: 5px;">
-                                    Parcel Type:  {{data.parcel_type}}
+                                        status:  {{data.status}}
                                     </div>
                                     <div style=" padding: 5px; word-spacing: 5px;">
-                                    Estimated Bid:  {{data.min_price}}
+                                        Parcel Type:  {{data.parcel_type}}
                                     </div>
-                                    <div class="form-group row name">
-                                        <div class="form-group col">
-                                            <input type="number" style="width: 160px;" class="form-control" placeholder="Your bid" >
-                                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div class="form-group col">
-                                            <button class="btn btn-outline-secondary" type="button" style="padding: 2px;font-size:15px; margin-top: 1px; border-radius: 10px; margin-left: -140px; width: 100px; height: 35px;">Bid</button>
-                                        </div>
-                                       
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                        Winner:  User 1 
+                                    </div>
+                                    <div style=" padding: 5px; word-spacing: 5px;">
+                                        Total Bids:  12 
                                     </div>
                                     
                                 </div>
