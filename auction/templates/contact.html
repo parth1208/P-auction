@@ -1,0 +1,35 @@
+ {% extends "layout.html" %} {% load static %} {% block body %}
+
+<section class="form-12" id="home">
+    <div class="form-12-content">
+        <div class="container" style="position: center;">
+            <div class="grid grid-column-2 ">
+                <div class="column2">
+                </div>
+                <div class="column1">
+                    <h3 class="tagline mb-3">Contact US</h3>
+
+                    <form method="Get">
+                        <div class="">
+                            <input type="text" name="name" class="form-input" placeholder="Enter Name" />
+                        </div>
+                        <div class="">
+                            <input type="email" name="email" class="form-input" placeholder="Enter Email" />
+                        </div>
+                        <div class="">
+                            <input type="number" name="number" class="form-input" placeholder="Enter Number" />
+                        </div>
+                        <div class="">
+                            <input type="text" name="address" class="form-input" placeholder="Enter Address" />
+                        </div>
+                        <button type="submit" class="btn">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

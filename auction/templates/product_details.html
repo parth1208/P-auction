@@ -100,20 +100,18 @@
                                         <tbody>
                                             {% for obj in bid %} {% if obj.product.name == data.name %}
                                             <tr>
+
                                                 <td>{{ obj.bidder_user }}</td>
                                                 <td>{{ obj.Bid_prices }}</td>
+
                                             </tr>
-                                            {% endif %} {% endfor %}
+                                            {% endif %}{% endfor %}
                                         </tbody>
                                     </tbody>
                                 </table>
                             </td>
                         </th>
                     </table>
-
-
-
-
 
                     {% endfor %}
 

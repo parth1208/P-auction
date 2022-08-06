@@ -34,6 +34,9 @@ def Products(request):
 def product(request):
     return render(request, "product.html")
 
+def contact(request):
+    return render(request, "contact.html")
+
 def login(request):
     if request.method == "POST":
 
@@ -231,7 +234,8 @@ def Product_detail(request,pk):
             bidder = Bidder.objects.create(bidder_user=request.user,product=i,Bid_prices=bids) 
             bidder.save() 
     else: 
-        bid=Bidder.objects.all().order_by('Bid_prices')[0:3] 
+        bid=Bidder.objects.all().order_by('Bid_prices')
+        return render(request, "product_details.html",{'details':products_details,'bid':bid})
     return render(request, "product_details.html",{'details':products_details,'bid':bid})
 
 

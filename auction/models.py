@@ -50,3 +50,13 @@ class Aucted_Product(models.Model):
 
     def __str__(self):
         return self.user.user.username+ " " + self.product.name
+
+
+class Bidder(models.Model):
+    bidder_user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
+    Bid_prices = models.IntegerField(null=True)
+
+
+    def __str__(self):
+        return self.bidder_user.user.username+ " " + self.product.name
