@@ -1,0 +1,78 @@
+{% extends "layout.html" %} {% load static %} {% block body %}
+
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<style>
+    .button1 {
+        background-color: #e91e63;
+    }
+    
+    .button1:hover {
+        background-color: #3f51b5;
+    }
+</style>
+
+<section class="form-12" id="home">
+    <div class="form-12-content">
+        <div class="container">
+            <div class="grid grid-column-3 ">
+                <div class="column2"></div>
+                <div class="column1 mb-3" style="height: 400px; padding:1ch;">
+                    <h3 class="tagline mb-3 form-head" style="text-align: center;">Product Details</h3>
+
+
+                        <div style="float: left; width: 25%;padding-left: 200px;height: 500px;">
+                            <div style="margin-top: 50px; padding-right: 100px;">
+                                <img id="blah" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="250" height="250" class="rounded-circle" alt="your image" /></div>
+                        </div>
+                        <div style="float: right; width: 60%;padding-left: 150px;height: 550px;">
+							<div style="padding-top: 55px;">
+							<div style=" padding: 5px; word-spacing: 40px;">
+							Email     Email
+							</div>
+							<div style=" padding: 5px; word-spacing: 40px;">
+							Name      Name
+							</div>
+							<div style=" padding: 5px; word-spacing: 38px;">
+							Phone  Phone
+							</div>
+							<div style=" padding: 5px; word-spacing: 54px;">
+							City  City
+							</div>
+							<div style=" padding: 5px; word-spacing: 43px;">
+							State  state
+							</div>
+							<div style=" padding: 5px; word-spacing: 26px;">
+							Country  country
+							</div>
+						</div>
+						</div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

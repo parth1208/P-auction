@@ -19,6 +19,9 @@ import imghdr
 def index(request):
     return render(request, "index.html")
 
+def blog(request):
+    return render(request, "blog.html")
+
 def table1(request):
     return render(request, "table1.html")
 

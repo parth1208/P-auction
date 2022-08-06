@@ -11,6 +11,7 @@ urlpatterns = [
     path("product/", views.product, name="product"),
     path("table1/", views.table1, name="table1"),
     path("table2/", views.table2, name="table2"),
+    path("blog/", views.blog, name="blog"),
 
 
     path('change_password',views.change_password,name='change_password'),

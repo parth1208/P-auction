@@ -16,9 +16,6 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username}"
 
-<<<<<<< HEAD
-
-=======
 class Session_date(models.Model):
     date = models.CharField(max_length=30,null=True)
     def __str__(self):
@@ -44,4 +41,3 @@ class Product(models.Model):
     session = models.ForeignKey(Session_Time,on_delete=models.CASCADE,null=True)
     def __str__(self):
         return self.name 
->>>>>>> b055e6827ebf667d90ae53b3846446b5a978b716
