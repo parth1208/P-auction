@@ -20,9 +20,6 @@ import imghdr
 def index(request):
     return render(request, "index.html")
 
-def product_details(request):
-    return render(request, "product_details.html")
-
 def done_bid(request,pk):
     products_details = Product.objects.filter(id=pk)
     return render(request, "done_bid.html",{'details':products_details})
@@ -33,9 +30,6 @@ def select_result(request,pk):
 
 def Products(request):
     return render(request, "products_table.html")
-
-def Bidder(request):
-    return render(request, "bidder.html")
 
 def product(request):
     return render(request, "product.html")
@@ -124,6 +118,22 @@ def signup(request):
         return render(request, "signup.html")
     
 
+def updateproduct(request,pk):
+    print(pk,"update")
+    if request.method=='POST':
+        obj.save()
+    else:
+        obj=Product.objects.get(pk=pk)
+        return render(request,'add_product.html',{'form':obj})
+
+def Bidders(request):
+    bid=Bidder.objects.filter(bidder_user=request.user)
+    return render(request, "bidder.html",{'details':bid})
+
+def deleteproduct(request,pk):
+    obj=Product.objects.get(pk=pk)
+    obj.delete()
+    return redirect('Products_table')
 
 def change_password(request):
     if request.method == 'POST':
@@ -175,6 +185,25 @@ def Add_Product(request):
         
     d = {'sed': sed,'date1': date1,'terror':terror,'error':error}
     return render(request, 'add_product.html', d)    
+    
+
+def myproducts(request):
+    if not request.user.is_authenticated:
+        return redirect('login_user')
+    data = 0
+    user = User.objects.get(username=request.user.username)
+    error = ""
+    try:
+        data = Bidder.objects.get(user=user)
+        if data:
+            error = "pat"
+    except:
+        data = User.objects.get(username=user)
+    
+    products_details = Product.objects.filter(user=request.user)
+    return render(request, "myproducts.html",{'details':products_details})
+
+
 
 def Products_table(request):
     if not request.user.is_authenticated:
@@ -193,12 +222,27 @@ def Products_table(request):
 
     return render(request, "products_table.html",{'details':products_details})
 
-def Product_detail(request,pk):
-    
-    
-    products_details = Product.objects.filter(id=pk)
 
-    return render(request, "product_details.html",{'details':products_details})
+def Product_detail(request,pk): 
+    products_details = Product.objects.filter(id=pk) 
+    if request.method == 'POST': 
+        bids = request.POST['bids_amount'] 
+        for i in products_details:
+            bidder = Bidder.objects.create(bidder_user=request.user,product=i,Bid_prices=bids) 
+            bidder.save() 
+    else: 
+        bid=Bidder.objects.all().order_by('Bid_prices')[0:3] 
+    return render(request, "product_details.html",{'details':products_details,'bid':bid})
+
+
+def done_bid(request,pk):
+    products_details = Product.objects.filter(id=pk)
+    return render(request, "done_bid.html",{'details':products_details})
+
+def select_result(request,pk):
+    products_details = Product.objects.filter(id=pk)
+    return render(request, "select_result.html",{'details':products_details})
+
 def All_Products(request):
     if not request.user.is_authenticated:
         return redirect('login_user')

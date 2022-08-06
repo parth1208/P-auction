@@ -1,0 +1,125 @@
+{% extends "layout.html" %} {% load static %} {% block body %}
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<style>
+    .button1 {
+        background-color: #e91e63;
+    }
+    
+    .button1:hover {
+        background-color: #3f51b5;
+    }
+</style>
+
+<section class="form-12" id="home">
+    <div class="form-12-content">
+        <div class="container">
+            <div class="grid grid-column-3 ">
+                <div class="column2"></div>
+                <div class="column1 mb-3" style="height: 615px; padding:1ch;">
+                    <h3 class="tagline mb-3 form-head" style="text-align: center;">{{title}}</h3>
+
+
+                    <form action="{% url 'add_product' %}" method="POST" value="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div style="float: left; width: 25%;padding: 10px;height: 500px;">
+                            <div style="margin-top: 50px; padding-right: 100px;">
+                                <img id="blah" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="250" height="250" class="rounded-circle" alt="your image" /></div>
+                            <div class="form-group row" style="margin-top: 50px; margin-right: 10px;">
+                                <div class="col-md-1 col-form"></div>
+                                <div class="col">
+                                    <div class="custom-file" style="margin-left: -10px;">
+                                        <input type="file" onchange="readURL(this);" class="custom-file-input" id="customFile" name="images">
+                                        <label class="custom-file-label" for="customFile">Choose Photo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div style="float: right; width: 75%;padding: 10px;height: 550px;">
+                            <div class="form-group row name">
+                                <div class="form-group col">
+                                    <label>Select Parcel Type</label>
+                                    <select class="form-control" name="parcel_type" id="usertype">
+                                    <option value="box" class="input">Box</option>
+                                    <option value="carton" class="input">Carton</option>
+                                    <option value="document" class="input">Document</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Product Name</label>
+                                    <input class="form-control" autofocus type="text" name="product_name" placeholder="Product Name" autocomplete="off" required value="{{form.name}}">
+                                </div>
+                                <div class="form-group col">
+                                    <label>Expected Price</label>
+                                    <input class="form-control" autofocus type="text" name="ex_price" placeholder="Your Expected Fare" autocomplete="off" value="{{form.min_price}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row name">
+                                <div class="form-group col">
+                                    <label>From City</label>
+                                    <input class="form-control" autofocus type="text" name="from_city" placeholder="From City" autocomplete="off" required value="{{form.from_city}}">
+                                </div>
+                                <div class="form-group col">
+                                    <label>To City</label>
+                                    <input class="form-control" autofocus type="text" name="to_city" placeholder="To City" autocomplete="off" required value="{{form.to_city}}">
+                                </div>
+                                <div class="form-group col">
+                                    <label>Estimated Weight</label>
+                                    <input class="form-control" autofocus type="text" name="weight" placeholder="Est. Weight" autocomplete="off" value="{{form.weight}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Auction Start Date</label>
+                                        <input class="form-control" autofocus type="date" name="start_date" placeholder="Start date" autocomplete="off" value="{{form.session}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Auction End Date</label>
+                                        <input class="form-control" autofocus type="date" name="end_date" placeholder="End date" autocomplete="off" value="{{form.min_price}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid align-login-register ">
+                                <button type="submit" class=" btn-secondary btn-theme button1" style="margin-top: 10px; border-radius: 10px; margin-left: 245px; width: 200px; height: 50px;">Add Product</button>
+                            </div>
+                    </form>
+                    {% if message %}
+                    <div>
+                        <p class="card-text" style="color: red; font-weight: bold; margin-left: 175px;">{{ message }}</p>
+                    </div>
+                    {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

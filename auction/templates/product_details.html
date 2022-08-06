@@ -40,82 +40,82 @@
                         <th>
                             <td style="width: 400px;">
                                 <div style="float: left; width: 25%;padding-left: 30px;height: 500px;">
-                                    <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle"/>
+                                    <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle" />
                                 </div>
                             </td>
                             <td style="width: 400px;">
                                 <div style="float: center;height: 600px;">
                                     <div style="padding-top: 20px;">
-                                    
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    Name:     {{data.name}}
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    Expected Price:  {{data.min_price}}
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    From:  {{data.from_city}}
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    To:  {{data.to_city}}
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    KMs:  100
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    Weight:  {{data.weight}}
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    Parcel Type:  {{data.parcel_type}}
-                                    </div>
-                                    <div style=" padding: 5px; word-spacing: 5px;">
-                                    Estimated Bid:  {{data.min_price}}
-                                    </div>
-                                    <div class="form-group row name">
-                                        <div class="form-group col">
-                                            <input type="number" style="width: 160px;" class="form-control" placeholder="Your bid" >
-                                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div class="form-group col">
-                                            <button class="btn btn-outline-secondary" type="button" style="padding: 2px;font-size:15px; margin-top: 1px; border-radius: 10px; margin-left: -140px; width: 100px; height: 35px;">Bid</button>
+
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Name: {{data.name}}
                                         </div>
-                                       
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Expected Price: {{data.min_price}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            From: {{data.from_city}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            To: {{data.to_city}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            KMs: 100
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Weight: {{data.weight}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Parcel Type: {{data.parcel_type}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Estimated Bid: {{data.min_price}}
+                                        </div>
+
+                                        <form action="{% url 'product_details' pk=data.pk %}" method="POST" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group row name">
+                                                <div class="form-group col">
+                                                    <input type="number" style="width: 160px;" class="form-control" placeholder="Your bid" name="bids_amount">
+                                                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <div class="form-group col">
+                                                    <button class="btn btn-outline-secondary" type="submit" style="padding: 2px;font-size:15px; margin-top: 1px; border-radius: 10px; margin-left: -140px; width: 100px; height: 35px;">Bid</button>
+                                                </div>
+
+                                            </div>
+                                        </form>
+
                                     </div>
-                                    
-                                </div>
                             </td>
                             <td style="width: 400px; padding-bottom: 240px;">
                                 <h3 style="text-align: center;">Top 3 Performer</h3>
                                 <table class="table table-striped" style="text-align: center;">
                                     <thead>
-                                      <tr>
-                                        <th scope="col">Bidder</th>
-                                        <th scope="col">Bid Price</th>
-                                      </tr>
+                                        <tr>
+                                            <th scope="col">Bidder</th>
+                                            <th scope="col">Bid Price</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <td>User 1</td>
-                                        <td>1000</td>
-                                      </tr>
-                                      <tr>
-                                        <td>User 2</td>
-                                        <td>1100</td>
-                                      </tr>
-                                      <tr>
-                                        <td>User 3</td>
-                                        <td>1200</td>
-                                      </tr>
+                                        <tbody>
+                                            {% for obj in bid %}
+                                            <tr>
+                                                <td>{{ obj.bidder_user }}</td>
+                                                <td>{{ obj.Bid_prices }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </tbody>
-                                  </table>
+                                </table>
                             </td>
                         </th>
                     </table>
 
-                        
-                        
-                        
-                       
-                        {% endfor %}
+
+
+
+
+                    {% endfor %}
 
 
                     </div>
