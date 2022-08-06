@@ -34,8 +34,8 @@
                                 <td>{{data.min_price}}</td>
                                 <td><img src="/{{ BASIC_DIR }}/{{data.images}}" style="height: 50px;"></td>
                                 <td>
-                                    <a href="{% url 'updateproduct' pk=data.pk %}"><button type="button" class="btn btn-danger">Edit</button></a>
-                                    <a href="{% url 'deleteproduct' pk=data.pk %}"><button type="button" class="btn btn-success">Delete</button></a>
+                                    <button type="button" class="btn btn-danger">Edit</button>
+                                    <button type="button" class="btn btn-success">Delete</button>
                                 </td>
                             </tr>
                             {% endfor %}

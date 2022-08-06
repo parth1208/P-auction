@@ -1,49 +1,61 @@
-{% extends "layout.html" %} {% load static %} {% block body %}
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
 
 <style>
-    th {
+    th{
         text-align: center;
     }
-    
-    td {
+    td{
         text-align: center;
     }
 </style>
 
 <section class="grids-12" id="news">
     <div id="grids4-block" class="py-2">
-        <div class="container py-md-5">
+       <div class="container py-md-5">
             <div class="row mt-2 pt-3">
-
-                <div class="grids4-info col-lg-16 col-md-12 offset-lg-0 offset-md-3 mt-lg-0 mt-4">
+                
+                 <div class="grids4-info col-lg-16 col-md-12 offset-lg-0 offset-md-3 mt-lg-0 mt-4">
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Bidding Price</th>
-                                <th scope="col">Winnig</th>
-                            </tr>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Bidding Price</th>
+                            <th scope="col">Winnig</th>
+                          </tr>
                         </thead>
                         <tbody>
-                            {% for data in details %}
-                            <tr>
-                                <th scope="row" style="text-align:center">{{ forloop.counter }}</th>
-                                <td>{{ data.product.name }}</td>
-                                <td>{{ data.Bid_prices }}</td>
-                                <td>{{ data.product.status }}</td>
-                            </tr>
-                            {% endfor %}
+                          <tr>
+                            <th scope="row" style="text-align:center">1</th>
+                            <td>Mark</td>
+                            <td>1000</td>
+                            <td>@mdo</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>20000</td>
+                            <td>@fat</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>12000</td>
+                            <td>@twitter</td>
+                          </tr>
                         </tbody>
-                    </table>
-
-
+                      </table>
+                
+                        
+                    </div>
                 </div>
-            </div>
-        </div>
+           </div>
     </div>
 </section>
 
 
-
+ 
 {% endblock %}
