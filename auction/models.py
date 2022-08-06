@@ -21,11 +21,6 @@ class Session_date(models.Model):
     def __str__(self):
         return self.date
 
-class Session_Time(models.Model):
-    date = models.ForeignKey(Session_date,on_delete=models.CASCADE,null=True)
-    time = models.CharField(max_length=30,null=True)
-    def __str__(self):
-        return self.date.date+" "+self.time
 
 class Status(models.Model):
     status = models.CharField(max_length=30,null=True)
@@ -38,6 +33,19 @@ class Product(models.Model):
     name = models.CharField(max_length=100,null=True)
     min_price = models.IntegerField(null=True)
     images = models.FileField(null=True)
-    session = models.ForeignKey(Session_Time,on_delete=models.CASCADE,null=True)
+    from_city=models.CharField(max_length=100,null=True)
+    to_city=models.CharField(max_length=100,null=True)
+    weight=models.IntegerField(null=True)
+    parcel_type=models.CharField(max_length=100,null=True)
+    session = models.ForeignKey(Session_date,on_delete=models.CASCADE,null=True)
     def __str__(self):
         return self.name 
+         
+
+class Aucted_Product(models.Model):
+    winner = models.CharField(max_length=100,null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
+
+    def __str__(self):
+        return self.user.user.username+ " " + self.product.name
