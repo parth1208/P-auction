@@ -1,0 +1,753 @@
+from django.db import models from django.contrib.auth.models import AbstractUser from django.contrib.auth import get_user_model # Create your models here. class User(AbstractUser): city = models.CharField(max_length=100) state = models.CharField(max_length=100)
+country = models.CharField(max_length=100) phone = models.IntegerField(default=0) is_Budder=models.BooleanField('Is Bidder',default=False) is_seller=models.BooleanField('Is seller',default=False) image = models.ImageField(upload_to='Profile/') def __str__(self):
+return f"{self.username}" class Session_date(models.Model): date = models.CharField(max_length=30,null=True) def __str__(self): return self.date class Status(models.Model): status = models.CharField(max_length=30,null=True) def __str__(self): return self.status
+class Product(models.Model): user = models.ForeignKey(User,on_delete=models.CASCADE,null=True) status =models.ForeignKey(Status,on_delete=models.CASCADE,null=True) name = models.CharField(max_length=100,null=True) min_price = models.IntegerField(null=True)
+images = models.FileField(null=True) from_city=models.CharField(max_length=100,null=True) to_city=models.CharField(max_length=100,null=True) weight=models.IntegerField(null=True) distance=models.IntegerField(null=True) parcel_type=models.CharField(max_length=100,null=True)
+session = models.ForeignKey(Session_date,on_delete=models.CASCADE,null=True) def __str__(self): return self.name class Aucted_Product(models.Model): winner = models.CharField(max_length=100,null=True) user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True) def __str__(self): return self.user.user.username+ " " + self.product.name add_product {% extends "layout.html" %} {% load static %} {% block body %}
+
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<style>
+    .button1 {
+        background-color: #e91e63;
+    }
+    
+    .button1:hover {
+        background-color: #3f51b5;
+    }
+</style>
+
+<section class="form-12" id="home">
+    <div class="form-12-content">
+        <div class="container">
+            <div class="grid grid-column-3 ">
+                <div class="column2"></div>
+                <div class="column1 mb-3" style="height: 615px; padding:1ch;">
+                    <h3 class="tagline mb-3 form-head" style="text-align: center;">Add Your Product Here</h3>
+
+
+                    <form action="{% url 'add_product' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div style="float: left; width: 25%;padding: 10px;height: 500px;">
+                            <div style="margin-top: 50px; padding-right: 100px;">
+                                <img id="blah" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="250" height="250" class="rounded-circle" alt="your image" /></div>
+                            <div class="form-group row" style="margin-top: 50px; margin-right: 10px;">
+                                <div class="col-md-1 col-form"></div>
+                                <div class="col">
+                                    <div class="custom-file" style="margin-left: -10px;">
+                                        <input type="file" onchange="readURL(this);" class="custom-file-input" id="customFile" name="images">
+                                        <label class="custom-file-label" for="customFile">Choose Photo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div style="float: right; width: 75%;padding: 10px;height: 550px;">
+                            <div class="form-group row name">
+                                <div class="form-group col">
+                                    <label>Select Parcel Type</label>
+                                    <select class="form-control" name="parcel_type" id="usertype">
+                                    <option value="box" class="input">Box</option>
+                                    <option value="carton" class="input">Carton</option>
+                                    <option value="document" class="input">Document</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Product Name</label>
+                                    <input class="form-control" autofocus type="text" name="product_name" placeholder="Product Name" autocomplete="off" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Estimated Weight (in gms)</label>
+                                    <input class="form-control" autofocus type="text" name="weight" placeholder="Est. Weight" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group row name">
+                                <div class="form-group col">
+                                    <label>From City</label>
+                                    <input class="form-control" autofocus type="text" name="from_city" placeholder="From Name" autocomplete="off" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>To City</label>
+                                    <input class="form-control" autofocus type="text" name="to_city" placeholder="To City" autocomplete="off" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label>Expected KMs</label>
+                                    <input class="form-control" autofocus type="number" name="km" placeholder="Your Expected KMs" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Auction Start Date</label>
+                                        <input class="form-control" autofocus type="date" name="start_date" placeholder="Start date" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Auction End Date</label>
+                                        <input class="form-control" autofocus type="date" name="end_date" placeholder="End date" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid align-login-register ">
+                                <button type="submit" class=" btn-secondary btn-theme button1" style="margin-top: 10px; border-radius: 10px; margin-left: 245px; width: 200px; height: 50px;">Add Product</button>
+                            </div>
+
+                    </form>
+                    {% if message %}
+                    <div>
+                        <p class="card-text" style="color: red; font-weight: bold; margin-left: 175px;">{{ message }}</p>
+                    </div>
+                    {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %} Layout {% load static %}
+
+<!---/demosWTR/Freedom/20-10-2020/packers-freedom-demo_Free/244861779/web/index.htmlselect template_id,template_title,template_name,featured_image,featured_image_server_id,
+full_image_server_id,full_image from template_down_details where starter_demo_url='/demosWTR/Freedom/20-10-2020/packers-freedom-demo_Free/244861779/web/index.html' lat part:index.html--->
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en">
+
+<!-- Mirrored from demo.w3layouts.com/demosWTR/Freedom/20-10-2020/packers-freedom-demo_Free/244861779/web/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 24 Dec 2020 09:40:11 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!-- /Added by HTTrack -->
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Packers a Packers & Movers Category Bootstrap Responsive Website Template | Home </title>
+    <!-- web fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Karla:400,700&amp;display=swap" rel="stylesheet">
+    <!-- //web fonts -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style-freedom.css' %}">
+</head>
+
+<body>
+    <script src='../../../../../../../ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+    <script src="../../../../../../../m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+
+    <!--<script>(function(v,d,o,ai){ai=d.createElement("script");ai.defer=true;ai.async=true;ai.src=v.location.protocol+o;d.head.appendChild(ai);})(window, document, "//a.vdo.ai/core/w3layouts_V2/vdo.ai.js?vdo=34");</script>-->
+    <div id="codefund">
+        <!-- fallback content -->
+    </div>
+    <script src="https://ethicalads.io/?ref=codefund" async="async"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src='https://www.googletagmanager.com/gtag/js?id=UA-149859901-1'></script>
+    <style>
+        .dropdown {
+            position: relative;
+            border: 1px solid transparent;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            border: 1px solid transparent;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            border: 1px solid transparent;
+        }
+    </style>
+
+    <meta name="robots" content="noindex">
+
+    <body>
+        <link rel="stylesheet" href="../../../../../../images/demobar_w3_4thDec2019.css">
+        <!-- Demo bar start -->
+
+        <!-- Top Menu 1 -->
+        <!-- //Top Menu 1 -->
+        <section class="w3l-bootstrap-header">
+            <nav class="navbar navbar-expand-lg navbar-light py-lg-2 py-2">
+                <div class="container" style="width: 100%;">
+                    <a class="navbar-brand" href="{% url 'index' %}"><span class="fa fa-truck"></span> AforT</a>
+                    <!-- if logo is image enable this   
+    <a class="navbar-brand" href="#index.html">
+        <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+    </a> -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon fa fa-bars"></span>
+    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="about.html">About</a>
+                            </li>
+                            {% if user.is_Budder != True %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'add_product' %}">Add Products</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'myproducts' %}">My Products</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'Bidder' %}">Bidder</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'product' %}">Product</a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.html">Contact</a>
+                            </li>
+                        </ul>
+                        {% if user.is_authenticated %}
+                        <nav class="navbar navbar-dark bg navbar-expand-sm">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+                            <div class="collapse navbar-collapse" id="navbar-list-4">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                                        </a>
+                                        <div class="dropdown-content" style="border-radius:10px; width: 15px; ">
+                                            <a class="dropdown-item" href="" style="margin-left: -15px;">Dashboard</a>
+                                            <a class="dropdown-item" href="{% url 'profile'  user.pk %}" style="margin-left: -15px;">Edit Profile</a>
+                                            <a class="dropdown-item" href="{% url 'change_password' %}" style="margin-left: -15px;">Change Password</a>
+                                            <a class="dropdown-item" href="{% url 'logout_user' %}" style="margin-left: -15px;">Log Out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                        {% else %}
+                        <form class="form-inline">
+                            <a class="btn btn-secondary btn-theme" style="border-radius:10px;" href="{% url 'login' %}"> Sign in </a>
+                            <a class="btn btn-secondary btn-theme" style="border-radius:10px; margin-left: 10px;" href="{% url 'signup' %}"> Sign up </a>
+                        </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </nav>
+        </section>
+
+
+
+        {% block body %} {% endblock %}
+
+
+
+
+        <!-- grids block 5 -->
+        <section class="w3l-footer-29-main">
+            <div class="footer-29">
+                <div class="container">
+                    <div class="d-grid grid-col-4 footer-top-29">
+                        <div class="footer-list-29 footer-1">
+                            <h6 class="footer-title-29"><a href="{% url 'index' %}"><span class="fa fa-truck"></span> Packers</a></h6>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                            <div class="main-social-footer-29">
+                                <a href="#facebook" class="facebook"><span class="fa fa-facebook"></span></a>
+                                <a href="#twitter" class="twitter"><span class="fa fa-twitter"></span></a>
+                                <a href="#instagram" class="instagram"><span class="fa fa-instagram"></span></a>
+                                <a href="#google-plus" class="google-plus"><span class="fa fa-google-plus"></span></a>
+                                <a href="#linkedin" class="linkedin"><span class="fa fa-linkedin"></span></a>
+                            </div>
+                        </div>
+                        <div class="footer-list-29 footer-2">
+                            <ul>
+                                <h6 class="footer-title-29">Categories</h6>
+                                <li><a href="services.html">Airfreight </a></li>
+                                <li><a href="services.html">Domestic</a></li>
+                                <li><a href="services.html">International</a></li>
+                                <li><a href="services.html">Shipping</a></li>
+                                <li><a href="services.html">Liquids</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-list-29 footer-3">
+
+                            <h6 class="footer-title-29">Newsletter </h6>
+                            <form action="#" class="subscribe" method="post">
+                                <input type="email" name="email" placeholder="Email" required="">
+                                <button><span class="fa fa-envelope-o"></span></button>
+                            </form>
+                            <p>Subscribe and get our weekly newsletter</p>
+                            <p>We'll never share your email address</p>
+
+                        </div>
+                        <div class="footer-list-29 footer-4">
+                            <ul>
+                                <h6 class="footer-title-29">Quick Links</h6>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="blog.html"> Blog</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- move top -->
+            <button onclick="topFunction()" id="movetop" title="Go to top">
+                <span class="fa fa-angle-up"></span>
+                   </button>
+            <script>
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function() {
+                    scrollFunction()
+                };
+
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        document.getElementById("movetop").style.display = "block";
+                    } else {
+                        document.getElementById("movetop").style.display = "none";
+                    }
+                }
+
+                // When the user clicks on the button, scroll to the top of the document
+                function topFunction() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+            <!-- /move top -->
+        </section>
+        <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+        <!-- //footer-28 block -->
+        </section>
+        <!-- <script>
+$(function () {
+  $('.navbar-toggler').click(function () {
+    $('body').toggleClass('noscroll');
+  })
+});
+</script> -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="../../../../../../../code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+        </script>
+        <script src="../../../../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+        </script>
+        <script src="../../../../../../../stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+        </script>
+
+        <!-- Template JavaScript -->
+        <script src="{% static 'assets/js/all.js' %}"></script>
+        <!-- Smooth scrolling -->
+        <!-- <script src="assets/js/smoothscroll.js"></script> -->
+
+
+    </body>
+
+
+    <!-- Mirrored from demo.w3layouts.com/demosWTR/Freedom/20-10-2020/packers-freedom-demo_Free/244861779/web/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 24 Dec 2020 09:41:14 GMT -->
+
+</html>
+<!-- // grids block 5 -->
+
+
+
+
+
+product_details {% extends "layout.html" %} {% load static %} {% block body %}
+
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<style>
+    .button1 {
+        background-color: #e91e63;
+    }
+    
+    .button1:hover {
+        background-color: #3f51b5;
+    }
+</style>
+
+<section class="form-12" id="home">
+    <div class="form-12-content">
+        <div class="container">
+            <div class="grid grid-column-3 ">
+                <div class="column2"></div>
+                <div class="column1 mb-3" style="height: 450px; padding:1ch;">
+                    <h3 class="tagline mb-3 form-head" style="text-align: center;">Product Details</h3>
+                    {% for data in details %}
+                    <table style="margin-left: auto; margin-right:auto">
+                        <th>
+                            <td style="width: 400px;">
+                                <div style="float: left; width: 25%;padding-left: 30px;height: 500px;">
+                                    <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle" />
+                                </div>
+                            </td>
+                            <td style="width: 400px;">
+                                <div style="float: center;height: 600px;">
+                                    <div style="padding-top: 20px;">
+
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Name: {{data.name}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Expected Price: {{data.min_price}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            From: {{data.from_city}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            To: {{data.to_city}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            KMs: 100
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Weight: {{data.weight}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Parcel Type: {{data.parcel_type}}
+                                        </div>
+                                        <div style=" padding: 5px; word-spacing: 5px;">
+                                            Estimated Bid: {{data.min_price}}
+                                        </div>
+                                        <div class="form-group row name">
+                                            <div class="form-group col">
+                                                <input type="number" style="width: 160px;" class="form-control" placeholder="Your bid">
+                                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div class="form-group col">
+                                                <button class="btn btn-outline-secondary" type="button" style="padding: 2px;font-size:15px; margin-top: 1px; border-radius: 10px; margin-left: -140px; width: 100px; height: 35px;">Bid</button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                            </td>
+                            <td style="width: 400px; padding-bottom: 240px;">
+                                <h3 style="text-align: center;">Top 3 Performer</h3>
+                                <table class="table table-striped" style="text-align: center;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Bidder</th>
+                                            <th scope="col">Bid Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>User 1</td>
+                                            <td>1000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>User 2</td>
+                                            <td>1100</td>
+                                        </tr>
+                                        <tr>
+                                            <td>User 3</td>
+                                            <td>1200</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </th>
+                    </table>
+
+
+
+
+
+                    {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %} from django.urls import path from . import views from django.contrib.auth import views as v urlpatterns = [ path("", views.index, name="index"), path("login/", views.login, name="login"), path("signup/", views.signup, name="signup"), path("logout_user/",
+views.logout_user, name="logout_user"), path("profile/
+<int:pk>", views.profile, name="profile"), path("product/", views.All_Products, name="product"), path("Products/", views.Products_table, name="Products"), path("Bidder/", views.Bidder, name="Bidder"), path("myproducts/", views.myproducts, name="myproducts"),
+    path("product_details/
+    <int:pk>", views.Product_detail, name="product_details"), path("done_bid/
+        <int:pk>", views.done_bid, name="done_bid"), path("select_result/
+            <int:pk>", views.select_result, name="select_result"), path("add_product/", views.Add_Product, name="add_product"), path('change_password',views.change_password,name='change_password'), path('password-reset/', v.PasswordResetView.as_view(template_name='password_reset.html',
+                email_template_name='password_reset_email.html',subject_template_name='password_reset_email_subject.txt'),name='password_reset'), path('password-reset-done/', v.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
+                path('password-reset-confirm/
+                <uidb64>/
+                    <token>', v.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'), path('password-reset-complete/', v.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
+                        name='password_reset_complete'), ] def done_bid(request,pk): products_details = Product.objects.filter(id=pk) return render(request, "done_bid.html",{'details':products_details}) def select_result(request,pk): products_details
+                        = Product.objects.filter(id=pk) return render(request, "select_result.html",{'details':products_details}) def Add_Product(request): if not request.user.is_authenticated: return redirect('login_user') data = 0 user = User.objects.get(username=request.user.username)
+                        error = "" try: data = Bidder.objects.get(user=user) if data: error = "pat" except: data = User.objects.get(username=user) date1 = datetime.date.today() sed = Session_date.objects.all() sell = User.objects.get(username=user) terror
+                        = False if request.method == "POST": p = request.POST['product_name'] i = request.FILES['images'] st_date = request.POST['start_date'] end_date = request.POST['end_date'] fr_ct = request.POST['from_city'] to_ct = request.POST['to_city']
+                        dist = request.POST['km'] weight = request.POST['weight'] pr = 2.5*dist p_type = request.POST['parcel_type'] ses = Session_date.objects.create(date=st_date) sta = Status.objects.create(status="pending") pro1=Product.objects.create(user=request.user,status=sta,session=ses,name=p,
+                        min_price=pr, images=i,from_city=fr_ct,to_city=to_ct,distance=dist,parcel_type=p_type) auc=Aucted_Product.objects.create(product=pro1,user=sell) terror = True d = {'sed': sed,'date1': date1,'terror':terror,'error':error} return
+                        render(request, 'add_product.html', d) my change from imp import is_builtin from django.shortcuts import render from django.contrib.auth import authenticate, login as dj_login, logout from django.shortcuts import render, redirect
+                        from django.http import HttpResponse, HttpResponseRedirect, Http404 from django.db import IntegrityError from .models import * import datetime from django.contrib.auth.forms import PasswordChangeForm from django.contrib.auth import
+                        update_session_auth_hash from django.contrib import messages from django.utils.datastructures import MultiValueDictKeyError from django.urls import reverse import imghdr # Create your views here. def index(request): return render(request,
+                        "index.html") def blog(request): return render(request, "blog.html") def Products(request): return render(request, "products_table.html") def Bidders(request): bid=Bidder.objects.filter(bidder_user=request.user) return render(request,
+                        "bidder.html",{'details':bid}) def login(request): if request.method == "POST": # sign user username = request.POST["username"] password = request.POST["password"] user = authenticate(request, username=username, password=password)
+                        # Check authentication if user is not None: dj_login(request, user) return HttpResponseRedirect(reverse("index")) else: return render(request, "login.html", { "message": "Invalid username and/or password.", }) else: return render(request,
+                        "login.html") def logout_user(request): logout(request) return HttpResponseRedirect(reverse("index")) def signup(request): if request.method == "POST": first = request.POST["first"] last = request.POST["last"] email = request.POST["email"]
+                        phone = request.POST["phone"] city = request.POST["City"] state = request.POST["State"] country = request.POST["Country"] Sellect=request.POST["usertype"] print(Sellect) try: image = request.FILES["images"] except MultiValueDictKeyError:
+                        image = '' # Ensure password matches confirmation password = request.POST["password"] confirmation = request.POST["confirmation"] if not first.isalpha(): return render(request, "signup.html", { "message": "First Name contains only
+                        letters.", }) if password != confirmation: return render(request, "signup.html", { "message": "Passwords must match.", }) if not image=='': check_image = imghdr.what(image) if not (check_image== "jpg" or check_image== "jpeg" or
+                        check_image== "png"): return render(request, "auctions/register.html", { "message": "jpg or png files are accepted.", }) # Attempt to create new user try: if Sellect=='bidder': user = User.objects.create_user(username=email , email=email,
+                        password=password,first_name = first, last_name=last, phone=phone, city=city, state=state, country=country,image=image,is_Budder=True) user = authenticate(request, username=email, password=password) dj_login(request, user) return
+                        HttpResponseRedirect(reverse("index")) else: user = User.objects.create_user(username=email , email=email, password=password,first_name = first, last_name=last, phone=phone, city=city, state=state, country=country,image=image,is_seller=True)
+                        user = authenticate(request, username=email, password=password) dj_login(request, user) return HttpResponseRedirect(reverse("index")) except IntegrityError: return render(request, "signup.html", { "message": "Username already taken.",
+                        }) return render(request, "login.html") else: return render(request, "signup.html") def change_password(request): if request.method == 'POST': form = PasswordChangeForm(request.user, request.POST) if form.is_valid(): user = form.save()
+                        update_session_auth_hash(request, user) # Important! messages.success(request, 'Your password was successfully updated!') return redirect('change_password') else: messages.error(request, 'Please correct the error below.') else:
+                        form = PasswordChangeForm(request.user) return render(request, 'change_password.html', {'form': form}) def Add_Product(request): if not request.user.is_authenticated: return redirect('login_user') data = 0 user = User.objects.get(username=request.user.username)
+                        error = "" try: data = Bidder.objects.get(user=user) if data: error = "pat" except: data = User.objects.get(username=user) date1 = datetime.date.today() sed = Session_date.objects.all() sell = User.objects.get(username=user) terror
+                        = False if request.method == "POST": p = request.POST['product_name'] pr = request.POST['ex_price'] i = request.FILES['images'] st_date = request.POST['start_date'] end_date = request.POST['end_date'] fr_ct = request.POST['from_city']
+                        to_ct = request.POST['to_city'] weight = request.POST['weight'] p_type = request.POST['parcel_type'] ses = Session_date.objects.create(date=st_date) sta = Status.objects.create(status="pending") pro1=Product.objects.create(user=request.user,status=sta,session=ses,name=p,
+                        min_price=pr, images=i,from_city=fr_ct,to_city=to_ct,weight=weight,parcel_type=p_type) auc=Aucted_Product.objects.create(product=pro1,user=sell) terror = True d = {'sed': sed,'date1': date1,'terror':terror,'error':error} return
+                        render(request, 'add_product.html', d) def Products_table(request): if not request.user.is_authenticated: return redirect('login_user') data = 0 user = User.objects.get(username=request.user.username) error = "" try: data = Bidder.objects.get(user=user)
+                        if data: error = "pat" except: data = User.objects.get(username=user) products_details = Product.objects.filter(user=request.user) return render(request, "products_table.html",{'details':products_details}) def updateproduct(request,pk):
+                        print(pk,"update") if request.method=='POST': obj.save() else: obj=Product.objects.get(pk=pk) return render(request,'add_product.html',{'form':obj}) def All_Products(request): products_details = Product.objects.all() print(products_details)
+                        return render(request, "product.html",{'details':products_details}) def Product_detail(request,pk): products_details = Product.objects.filter(id=pk) if request.method == 'POST': bids = request.POST['bids_amount'] for i in products_details:
+                        bidder = Bidder.objects.create(bidder_user=request.user,product=i,Bid_prices=bids) bidder.save() else: bid=Bidder.objects.all().order_by('Bid_prices')[0:3] return render(request, "product_details.html",{'details':products_details,'bid':bid})
+                        def deleteproduct(request,pk): obj=Product.objects.get(pk=pk) obj.delete() return redirect('Products_table') def profile(request,pk): username = User.objects.get(pk = pk) context = { "username": username, } return render(request,"profile.html",
+                        context) bidder {% extends "layout.html" %} {% load static %} {% block body %}
+
+                        <style>
+                            th {
+                                text-align: center;
+                            }
+                            
+                            td {
+                                text-align: center;
+                            }
+                        </style>
+
+                        <section class="grids-12" id="news">
+                            <div id="grids4-block" class="py-2">
+                                <div class="container py-md-5">
+                                    <div class="row mt-2 pt-3">
+
+                                        <div class="grids4-info col-lg-16 col-md-12 offset-lg-0 offset-md-3 mt-lg-0 mt-4">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Bidding Price</th>
+                                                        <th scope="col">Winnig</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for data in details %}
+                                                    <tr>
+                                                        <th scope="row" style="text-align:center">{{ forloop.counter }}</th>
+                                                        <td>{{ data.product.name }}</td>
+                                                        <td>{{ data.Bid_prices }}</td>
+                                                        <td>{{ data.product.status }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+
+                        {% endblock %} product_details {% extends "layout.html" %} {% load static %} {% block body %}
+
+
+                        <script>
+                            function readURL(input) {
+                                if (input.files && input.files[0]) {
+                                    var reader = new FileReader();
+
+                                    reader.onload = function(e) {
+                                        $('#blah')
+                                            .attr('src', e.target.result)
+                                            .width(200)
+                                            .height(200);
+                                    };
+
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            }
+                        </script>
+
+                        <style>
+                            .button1 {
+                                background-color: #e91e63;
+                            }
+                            
+                            .button1:hover {
+                                background-color: #3f51b5;
+                            }
+                        </style>
+
+                        <section class="form-12" id="home">
+                            <div class="form-12-content">
+                                <div class="container">
+                                    <div class="grid grid-column-3 ">
+                                        <div class="column2"></div>
+                                        <div class="column1 mb-3" style="height: 400px; padding:1ch;">
+                                            <h3 class="tagline mb-3 form-head" style="text-align: center;">Product Details</h3>
+                                            {% for data in details %}
+                                            <table style="margin-left: auto; margin-right:auto">
+                                                <th>
+                                                    <td style="width: 400px;">
+                                                        <div style="float: left; width: 25%;padding-left: 30px;height: 500px;">
+                                                            <img id="blah" src="{% static '../media/'%}{{data.images}}" width="250" height="250" class="rounded-circle" />
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 400px;">
+                                                        <div style="float: center;height: 550px;">
+                                                            <div style="padding-top: 40px;">
+
+                                                                <div style=" padding: 5px; word-spacing: 5px;">
+                                                                    Name: {{data.name}}
+                                                                </div>
+                                                                <div style=" padding: 5px; word-spacing: 5px;">
+                                                                    Expected Price: {{data.min_price}}
+                                                                </div>
+                                                                <div style=" padding: 5px; word-spacing: 5px;">
+                                                                    From: {{data.from_city}}
+                                                                </div>
+                                                                <div style=" padding: 5px; word-spacing: 5px;">
+                                                                    To: {{data.to_city}}
+                                                                </div>
+                                                                <div style=" padding: 5px; word-spacing: 5px;">
+                                                                    Weight: {{data.weight}}
+                                                                </div>
+                                                                <div style=" padding: 5px; word-spacing: 5px;">
+                                                                    Parcel Type: {{data.parcel_type}}
+                                                                </div>
+                                                                <form action="{% url 'product_details' pk=data.pk %}" method="POST" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group row name">
+                                                                        <div class="form-group col">
+                                                                            <input type="number" style="width: 160px;" class="form-control" placeholder="Your bid" name="bids_amount">
+                                                                        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <div class="form-group col">
+                                                                            <button class="btn btn-outline-secondary" type="submit" style="padding: 2px;font-size:15px; margin-top: 1px; border-radius: 10px; margin-left: -140px; width: 100px; height: 35px;">Bid</button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </form>
+
+                                                            </div>
+                                                    </td>
+                                                    <td style="width: 400px; padding-bottom: 240px;">
+                                                        <h3 style="text-align: center;">Top 3 Performer</h3>
+                                                        <table class="table table-striped" style="text-align: center;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Bidder</th>
+                                                                    <th scope="col">Bid Price</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for obj in bid %}
+                                                                <tr>
+                                                                    <td>{{ obj.bidder_user }}</td>
+                                                                    <td>{{ obj.Bid_prices }}</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </th>
+                                            </table>
+
+
+
+
+
+                                            {% endfor %}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+
+                        {% endblock %} urls from django.urls import path from . import views from django.contrib.auth import views as v urlpatterns = [ path("", views.index, name="index"), path("login/", views.login, name="login"), path("signup/", views.signup, name="signup"),
+                        path("logout_user/", views.logout_user, name="logout_user"), path("profile/
+                        <int:pk>", views.profile, name="profile"), path("product/", views.All_Products, name="product"), path("product_details/
+                            <int:pk>/", views.Product_detail, name="product_details"), path("Products/", views.Products_table, name="Products"), path('updateproduct/
+                                <int:pk>',views.updateproduct,name='updateproduct'), path('deleteproduct/
+                                    <int:pk>',views.deleteproduct,name='deleteproduct'), path("Bidder/", views.Bidders, name="Bidder"), path("add_product/", views.Add_Product, name="add_product"), path('change_password',views.change_password,name='change_password'),
+                                        path('password-reset/', v.PasswordResetView.as_view(template_name='password_reset.html', email_template_name='password_reset_email.html',subject_template_name='password_reset_email_subject.txt'),name='password_reset'),
+                                        path('password-reset-done/', v.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'), path('password-reset-confirm/
+                                        <uidb64>/
+                                            <token>', v.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'), path('password-reset-complete/', v.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
+                                                name='password_reset_complete'), ] class Bidder(models.Model): bidder_user = models.ForeignKey(User,on_delete=models.CASCADE,null=True) product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
+                                                Bid_prices = models.IntegerField(null=True)
